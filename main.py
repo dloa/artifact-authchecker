@@ -9,7 +9,7 @@ consumer_secret = "6HwpjVBGCGO0TrQ4GrsMc4FbbVnS7wmLcKwGQbZp9aAPvH0Zzp"
 def findtxid(txid):
     url = 'http://libraryd.alexandria.media/alexandria/v1/search'
     payload = {
-      "protocol":"media",
+      "protocol":"publisher",
       "search-on":"txid",
       "search-for":txid
     }
@@ -27,7 +27,7 @@ def findtxid(txid):
     r = requests.post(url, data=json.dumps(payload))
 
     # Response, status etc
-    return([r.text,r.status_code])
+    return([json.loads(r.text),r.status_code])
 #function that verifies song against tweet and txid
 def verify_song(tweetid,txid,song):
     try:
@@ -36,15 +36,17 @@ def verify_song(tweetid,txid,song):
         api = tweepy.API(auth)
         tweet = api.get_status(sys.argv[1])
         if txid in tweet.text:
-
-            for score, recording_id, title, artist in acoustid.match("Hcspu7zG",song):
-                if artist in tweet.text:
-                    print True
-                    break
+            if findtxid(txid)[0]["response"][0]["publisher-data"]["alexandria-publisher"]["name"].lower() in tweet.text.lower():
+                for score, recording_id, title, artist in acoustid.match("Hcspu7zG",song):
+                    if artist.lover() in tweet.text.lover():
+                        print "True,True,True"
+                        break
+                else:
+                    print "True,True,False"
             else:
-                print "FalseTrue"
+                print "True,False,False"
         else:
-            print False
+            print "False,False,False"
 
     except Exception,e1:
         print e1
@@ -52,16 +54,18 @@ def verify_song(tweetid,txid,song):
 
 #function that checks txid in tweet
 def verify_tweet(tweetid,txid):
-
     try:
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_token, access_token_secret)
         api = tweepy.API(auth)
         tweet = api.get_status(sys.argv[1])
         if txid in tweet.text:
-            print True
+            if findtxid(txid)[0]["response"][0]["publisher-data"]["alexandria-publisher"]["name"].lower() in tweet.text.lower():
+                print "True,True,False"
+            else:
+                print "True,False,False"
         else:
-            print False
+            print "False,False,False"
     except Exception,e0:
         print e0
 
