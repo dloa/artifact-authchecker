@@ -37,12 +37,15 @@ def verify_song(tweetid,txid,song):
         tweet = api.get_status(sys.argv[1])
         if txid in tweet.text:
             if findtxid(txid)[0]["response"][0]["publisher-data"]["alexandria-publisher"]["name"].lower() in tweet.text.lower():
-                for score, recording_id, title, artist in acoustid.match("Hcspu7zG",song):
-                    if artist.decode("utf-8").lower() in tweet.text.lower():
-                        print "True,True,True"
-                        break
+                if 0==sum(1 for x in acoustid.match("Hcspu7zG",song)):
+                    print "True,True,Notfound"
                 else:
-                    print "True,True,False"
+                    for score, recording_id, title, artist in acoustid.match("Hcspu7zG",song):
+                        if artist.decode("utf-8").lower() in tweet.text.lower():
+                            print "True,True,True"
+                            break
+                        else:
+                            print "True,True,False"
             else:
                 print "True,False,False"
         else:
