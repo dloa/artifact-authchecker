@@ -65,11 +65,11 @@ def verify_tweet(tweetid,txid):
         tweet = api.get_status(sys.argv[1])
         if txid in tweet.text:
             if findtxid(txid)[0]["response"][0]["publisher-data"]["alexandria-publisher"]["name"].lower() in tweet.text.lower():
-                print "True,True,False"
+                print "True,True,"+str(tweet.user.verified)
             else:
-                print "True,False,False"
+                print "True,False,"+str(tweet.user.verified)
         else:
-            print "False,False,False"
+            print "False,False,"+str(tweet.user.verified)
     except Exception,e0:
         print e0
 
