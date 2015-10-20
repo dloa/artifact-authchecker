@@ -1,3 +1,5 @@
+```python main.py $TweetID $TX-ID-OF-PUBLISHER-ANNOUNCEMENT [$path-to-file]```
+
 ####Field 1
 True = Name in tweet matches publisher name
 
