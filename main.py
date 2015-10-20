@@ -46,6 +46,7 @@ def verify_song(tweetid,txid,song):
                             break
                         else:
                             print "True,True,False,"+str(tweet.user.verified)
+                            break
             else:
                 print "True,False,False,"+str(tweet.user.verified)
         else:
