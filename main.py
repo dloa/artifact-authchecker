@@ -38,19 +38,19 @@ def verify_song(tweetid,txid,song):
         if txid in tweet.text:
             if findtxid(txid)[0]["response"][0]["publisher-data"]["alexandria-publisher"]["name"].lower() in tweet.text.lower():
                 if 0==sum(1 for x in acoustid.match("Hcspu7zG",song)):
-                    print "True,True,Notfound,"+str(tweet.user.verified)
+                    print '{"authdata":[{"foundtxid":"True"},{"foundname":"False"},{"verified":"'+str(tweet.user.verified)+'"}{"songmatch":"NotFound"}]}'
                 else:
                     for score, recording_id, title, artist in acoustid.match("Hcspu7zG",song):
                         if artist.decode("utf-8").lower() in tweet.text.lower():
-                            print "True,True,True,"+str(tweet.user.verified)
+                            print '{"authdata":[{"foundtxid":"True"},{"foundname":"True"},{"verified":"'+str(tweet.user.verified)+'"}{"songmatch":"True"}]}'
                             break
                         else:
-                            print "True,True,False,"+str(tweet.user.verified)
+                            print '{"authdata":[{"foundtxid":"True"},{"foundname":"True"},{"verified":"'+str(tweet.user.verified)+'"}{"songmatch:"False"}]}'
                             break
             else:
-                print "True,False,False,"+str(tweet.user.verified)
+                print '{"authdata":[{"foundtxid":"True"},{"foundname":"False"},{"verified":"'+str(tweet.user.verified)+'"}{"songfound":"False"}]}'
         else:
-            print "False,False,False,"+str(tweet.user.verified)
+            print '{"authdata":[{"foundtxid":"False"},{"foundname":"False"},{"verified":"'+str(tweet.user.verified)+'"}{"songfound":"False"}]}'
 
     except Exception,e1:
         print e1
@@ -65,11 +65,12 @@ def verify_tweet(tweetid,txid):
         tweet = api.get_status(sys.argv[1])
         if txid in tweet.text:
             if findtxid(txid)[0]["response"][0]["publisher-data"]["alexandria-publisher"]["name"].lower() in tweet.text.lower():
-                print "True,True,"+str(tweet.user.verified)
+                print '{"authdata":[{"foundtxid":"True"},{"foundname":"True"},{"verified":"'+str(tweet.user.verified)+'"}]}'
+                return 0
             else:
-                print "True,False,"+str(tweet.user.verified)
-        else:
-            print "False,False,"+str(tweet.user.verified)
+                print '{"authdata":[{"foundtxid":"True"},{"foundname":"False"},{"verified":"'+str(tweet.user.verified)+'"}]}'
+                return 0
+        print '{"authdata":[{"foundtxid":"False"},{"foundname":"False"},{"verified":"'+str(tweet.user.verified)+'"}]}'
     except Exception,e0:
         print e0
 
