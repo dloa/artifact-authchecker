@@ -38,19 +38,19 @@ def verify_song(tweetid,txid,song):
         if txid in tweet.text:
             if findtxid(txid)[0]["response"][0]["publisher-data"]["alexandria-publisher"]["name"].lower() in tweet.text.lower():
                 if 0==sum(1 for x in acoustid.match("Hcspu7zG",song)):
-                    print '{"authdata":[{"foundtxid":"True"},{"foundname":"False"},{"verified":"'+str(tweet.user.verified)+'"}{"songmatch":"NotFound"}]}'
+                    print '{"authdata":[{"foundtxid":"True"},{"foundname":"False"},{"verified":"'+str(tweet.user.verified)+'"},{"songmatch":"NotFound"}]}'
                 else:
                     for score, recording_id, title, artist in acoustid.match("Hcspu7zG",song):
                         if artist.decode("utf-8").lower() in tweet.text.lower():
-                            print '{"authdata":[{"foundtxid":"True"},{"foundname":"True"},{"verified":"'+str(tweet.user.verified)+'"}{"songmatch":"True"}]}'
+                            print '{"authdata":[{"foundtxid":"True"},{"foundname":"True"},{"verified":"'+str(tweet.user.verified)+'"},{"songmatch":"True"}]}'
                             break
                         else:
-                            print '{"authdata":[{"foundtxid":"True"},{"foundname":"True"},{"verified":"'+str(tweet.user.verified)+'"}{"songmatch:"False"}]}'
+                            print '{"authdata":[{"foundtxid":"True"},{"foundname":"True"},{"verified":"'+str(tweet.user.verified)+'"},{"songmatch:"False"}]}'
                             break
             else:
-                print '{"authdata":[{"foundtxid":"True"},{"foundname":"False"},{"verified":"'+str(tweet.user.verified)+'"}{"songfound":"False"}]}'
+                print '{"authdata":[{"foundtxid":"True"},{"foundname":"False"},{"verified":"'+str(tweet.user.verified)+'"},{"songfound":"False"}]}'
         else:
-            print '{"authdata":[{"foundtxid":"False"},{"foundname":"False"},{"verified":"'+str(tweet.user.verified)+'"}{"songfound":"False"}]}'
+            print '{"authdata":[{"foundtxid":"False"},{"foundname":"False"},{"verified":"'+str(tweet.user.verified)+'"},{"songfound":"False"}]}'
 
     except Exception,e1:
         print e1
