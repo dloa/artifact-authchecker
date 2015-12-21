@@ -5,7 +5,7 @@
 The above response means the tweet no longer exists. Treat as *not currently authorized*
 
 ####Response Format
-{"authdata":[{"foundtxid":"True"},{"foundname":"True"},{"verified":"True"},{"songmatch":"True"}]}
+`{"authdata":[{"foundtxid":"True"},{"foundname":"True"},{"verified":"True"},{"songmatch":"True"}]}`
 
 ####Field Definitions   
 <list>
